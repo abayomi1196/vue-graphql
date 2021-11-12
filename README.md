@@ -1,4 +1,4 @@
-# jason-apollo
+# Vue3, GraphQL & Vue-Apollo
 
 ## Project setup
 ```
