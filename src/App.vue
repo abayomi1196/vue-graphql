@@ -1,11 +1,15 @@
 <script>
 import { useQuery, useResult } from "@vue/apollo-composable";
-import allCharactersQuery from "./graphql/queries/allCharacters.query.gql";
+import allCharactersQuery from "./graphql/allCharacters.query.gql";
 
 export default {
   name: "App",
   setup() {
     const { result, loading, error } = useQuery(allCharactersQuery);
+
+    /* the useResult fn allows us to takes the result of useQuery, 
+      default value for the result and a fn that mutates / formats the result
+    */
     const characters = useResult(result, null, (data) => data.characters);
 
     return { characters, loading, error };
@@ -23,7 +27,7 @@ export default {
   <ul v-else>
     <li v-for="character of characters.results" :key="character.id">
       <img :src="character.image" />
-      {{ character.name }}
+      <p>{{ character.name }}</p>
     </li>
   </ul>
 </template>
@@ -36,5 +40,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  text-align: center;
 }
 </style>
