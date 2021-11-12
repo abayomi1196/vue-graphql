@@ -1,13 +1,14 @@
 <script>
-import { useQuery } from "@vue/apollo-composable";
-import { GET_CHARACTER_NAMES } from "./graphql/queries";
+import { useQuery, useResult } from "@vue/apollo-composable";
+import allCharactersQuery from "./graphql/queries/allCharacters.query.gql";
 
 export default {
   name: "App",
   setup() {
-    const { result, loading, error } = useQuery(GET_CHARACTER_NAMES);
+    const { result, loading, error } = useQuery(allCharactersQuery);
+    const characters = useResult(result, null, (data) => data.characters);
 
-    return { result, loading, error };
+    return { characters, loading, error };
   },
 };
 </script>
@@ -17,10 +18,10 @@ export default {
 
   <p v-if="loading">Loading...</p>
 
-  <p v-else-if="error">something went wrong</p>
+  <p v-else-if="error">Error: {{ error.message }}</p>
 
   <ul v-else>
-    <li v-for="character of result.characters.results" :key="character.id">
+    <li v-for="character of characters.results" :key="character.id">
       <img :src="character.image" />
       {{ character.name }}
     </li>

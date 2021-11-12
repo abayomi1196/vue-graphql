@@ -1,0 +1,9 @@
+query characterNames {
+  characters {
+    results {
+      id
+      name
+      image
+    }
+  }
+}
